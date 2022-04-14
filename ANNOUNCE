@@ -1,0 +1,405 @@
+The Wine development release 3.10 is now available.
+
+What's new in this release (see below for details):
+  - Swapchain support in Direct 3D 12.
+  - Vulkan support updated to the latest spec.
+  - Debugger support for Wow64 processes.
+  - Still more support for the Task Scheduler.
+  - Various bug fixes.
+
+The source is available from the following locations:
+
+  https://dl.winehq.org/wine/source/3.x/wine-3.10.tar.xz
+  http://mirrors.ibiblio.org/wine/source/3.x/wine-3.10.tar.xz
+
+Binary packages for various distributions will be available from:
+
+  https://www.winehq.org/download
+
+You will find documentation on https://www.winehq.org/documentation
+
+You can also get the current source directly from the git
+repository. Check https://www.winehq.org/git for details.
+
+Wine is available thanks to the work of many people. See the file
+AUTHORS in the distribution for the complete list.
+
+----------------------------------------------------------------
+
+Bugs fixed in 3.10 (total 17):
+
+  29586  Tumblebugs 2 demo: insects render black
+  31403  bad exe format for mingw binary that works fine on windows.
+  31533  Copy from Onenote 2010 to linux native or even wine apps fails
+  33364  AMD HD 6650M is recognized as HD 2900XT1
+  34686  Neverwinter Nights 2 (GOG.com) fails on startup, claiming: "Unable to detect a video card with hardware 3D acceleration."
+  35898  64-bit PDF-XChange Viewer 2.5.x crashes when searching in a PDF document
+  36789  Multiple .NET XNA games fail to start, complaining with "Could not find a Direct3D device that supports the XNA Framework HiDef profile" (One Finger Death Punch, Party Of Sin DEMO, Stardew Valley)
+  37275  Chess Position Trainer 5 (.NET 4.0 app) wants gdiplus.GdipCreateAdjustableArrowCap implementation
+  38816  Multiple games require XInput gamepad support (Brothers: A Tale of Two Sons, Broforce, Dead Space, Lego Star Wars Complete Saga)
+  42599  Max Payne 3 (Steam) crashes in DX9 mode
+  43300  wchar.h missing wmemchr, wmemcmp, wmemcpy, wmemmove, and wmemset
+  43509  Internet Explorer 11 installer fails, needs stub 'dism.exe'
+  43606  World of Tanks no longer starts (after launcher) since 2.15
+  44880  64-bit Mod Organizer 2.1.2 dev6-Silarn-prerelease fails to load 'usvfs_x64.dll', needs 'ntdll.RtlDosPathNameToRelativeNtPathName_U_WithStatus'
+  45127  Tomb Raider 2013: mismatched shader interface blocks cause broken rendering
+  45243  Wrong cast in some HANDLE_MSG_WM_* macros produces errors when compiling with wineg++
+  45248  CPU-Z 1.8x kernel driver crashes on unimplemented function ntoskrnl.exe.SeSinglePrivilegeCheck
+
+----------------------------------------------------------------
+
+Changes since 3.9:
+
+Akihiro Sagawa (3):
+      winmm: Synchronize player status and API calls.
+      winmm: Return a continuous stream position in MIDI stream.
+      winmm: Reset the tick counter after handling messages.
+
+Alex Henrie (7):
+      include: Add wmemchr to wchar.h.
+      include: Add wmemcmp to wchar.h.
+      include: Add wmemcpy to wchar.h.
+      include: Add wmemmove to wchar.h.
+      include: Add wmemset to wchar.h.
+      gdi32: Avoid awkward cast in GetGlyphOutlineA (Coverity).
+      gdi32: Fix memory leak on error in PATH_WidenPath (Coverity).
+
+Alexandre Julliard (6):
+      msvcrtd: Fix _CrtDbgReport calling convention.
+      makefiles: Don't run tests for disabled dlls.
+      user32: Rename rectClient to client_rect for consistency.
+      user32: Rename rectWindow to window_rect for consistency.
+      user32: Only pass the new valid rectangle to the server.
+      server: Don't convert the surface region to screen coordinates.
+
+Alistair Leslie-Hughes (3):
+      include: Add more definitions to wdm.h.
+      wbemdisp/tests: Add ISWbemSecurity tests.
+      include: Updated enum AutomationIdentifierType values.
+
+Aurimas Fišeras (1):
+      po: Update Lithuanian translation.
+
+Austin English (1):
+      dism: Add stub program.
+
+Derek Lesho (1):
+      ntoskrnl: Have MmIsAddressValid use IsBadReadPtr.
+
+Dmitry Timoshkov (14):
+      mstask: Implement ITask::GetMostRecentRunTime().
+      schedsvc: Read parameters and current directory from the job file.
+      mstask: Retry with a timeout if opening a job file has failed.
+      schedsvc: Add support for executing tasks.
+      schedsvc: Read triggers when loading a job file.
+      schedsvc: Add support for running tasks at specified time.
+      schedsvc: Add a sanity check when loading a .job file.
+      schedsvc: Load job files at the service start up.
+      schedsvc: Add support for running missed tasks at the service start.
+      mstask: Implement ITask::GetExitCode().
+      mstask: Implement IEnumWorkItems::Next().
+      mstask: Implement IEnumWorkItems::Reset().
+      mstask: Implement IEnumWorkItems::Skip().
+      mstask/tests: Add more tests for IEnumWorkItems interface.
+
+Fabian Maurer (5):
+      fc: Add stub program.
+      find: Add stub program.
+      user32: Make RegisterPointerDeviceNotifications return TRUE to fake success.
+      user32: Add stub for GetPointerDevices.
+      user32: Add RegisterTouchHitTestingWindow stub.
+
+François Gouget (6):
+      wscript/tests: Fix a typo in the WScript.BuildVersion check.
+      dwrite: Fix typos in a couple of idl parameter names.
+      schedsvc: Add a trailing '\n' to some ERR() messages.
+      shell32: Fix a typo in a comment.
+      wsdapi/tests: Add a trailing '\n' to an ok() call.
+      dxgi: Fix a trailing '\n' in a FIXME() trace.
+
+Hans Leidekker (6):
+      msi/tests: Remove duplicate service tests.
+      webservices: Call WSACleanup when the dll is unloaded.
+      webservices/tests: Make test data local if it's only used in one place.
+      webservices: Handle WS_XML_TEXT_TYPE_INT64 in text_to_uint64.
+      webservices: Fix handling of empty text field mappings.
+      winhttp: Store the server certificate context in the request.
+
+Hua Meng (1):
+      msvcp120: Add tests for concurrent_vector_Internal_push_back and capacity.
+
+Hugh McMaster (2):
+      regedit: Confirm whether to delete a registry value from framewnd.c.
+      regedit: Pass NULL instead of the address of an empty WCHAR.
+
+Huw D. M. Davies (2):
+      dplayx: Prevent out-of-bounds access to lpMemArea.
+      dbghelp: Add a missing include to fix the build.
+
+Jacek Caban (7):
+      ole32/tests: Fixed tests on win64.
+      mshtml: Use case insensitive comparition in parse_ua_compatible.
+      mshtml: Use proper document mode for document fragment objects.
+      ole32: Don't try to unregister window class if it was never registered.
+      jscript: Use jsdisp_define_data_property in Object.getOwnPropertyDescriptor.
+      wininet: Simplify header string handling in HTTP_HttpSendRequestW.
+      mshtml/tests: Silence noisy traces.
+
+Józef Kucia (46):
+      winex11: Introduce GAMMA_RAMP_SIZE.
+      winex11: Interpolate gamma ramp when gamma ramp size is greater than 256.
+      d3d10core/tests: Add test for clearing 1D render target views.
+      wined3d: Fix condition for FIXME() about unsupported depth slices.
+      wined3d: Implement clears for 3D render target views.
+      d3d11/tests: Add test for clearing 3D render target views.
+      d3d11/tests: Check return value of CheckMultisampleQualityLevels() (Coverity).
+      d3d10core/tests: Check return value of CheckMultisampleQualityLevels() (Coverity).
+      dxgi: Rename dxgi_swapchain to d3d11_swapchain.
+      dxgi: Factor out d3d11_swapchain_create() function.
+      dxgi: Add IDXGISwapChain3 interface stub for D3D12.
+      odbccp32: Fix memory leak in SQLGetInstalledDrivers() (Coverity).
+      wined3d: Sort WINED3DSIH enum values.
+      winex11: Get rid of unnecessary assignments.
+      dxgi: Add FIXME() for ignored output parameter in dxgi_factory_CreateSwapChainForHwnd().
+      dxgi: Use DXGI_MAX_SWAP_CHAIN_BUFFERS.
+      dxgi: Forbid multisampling with flip swap effects.
+      dxgi: Introduce ARRAY_SIZE() macro.
+      dxgi/tests: Release IDXGIFactory in test_swapchain_present().
+      dxgi: Create Vulkan swapchains for D3D12.
+      dxgi: Implement d3d12_swapchain_GetBuffer().
+      dxgi: Implement d3d12_swapchain_GetCurrentBackBufferIndex().
+      dxgi: Implement d3d12_swapchain_Present1().
+      dxgi/tests: Handle DXGI_ERROR_NOT_CURRENTLY_AVAILABLE in test_fullscreen_resize_target().
+      dxgi/tests: Use global memory allocation helpers.
+      dxgi/tests: Add test for creating swapchains with multisampling.
+      dxgi/tests: Add option to use selected adapter.
+      winex11: Make get_vulkan_driver() thread-safe.
+      dxgi: Translate VkResults to HRESULTs.
+      dxgi/tests: Add test for IDXGISwapChain3::GetCurrentBackBufferIndex().
+      include/d3d12: Add PFN_D3D12_CREATE_DEVICE.
+      dxgi/tests: Run test_swapchain_backbuffer_index() also on D3D12.
+      d3d12/tests: Add visual test for rendering to swapchain.
+      winevulkan: Introduce WINE_VK_HOST to explicitly request 'host' Vulkan headers.
+      winevulkan: Remove vk.xml from repository.
+      winevulkan: Add copyright headers to files generated from vk.xml.
+      d3d11/tests: Add test for negative viewport coordinates.
+      winevulkan: Correctly recognize commands belonging to multiple extensions.
+      winevulkan: Remove unused variable from make_vulkan script.
+      wined3d: Execute all CS commands before changing swapchain window.
+      wined3d: Remove hardware level detection hacks.
+      d3d12/tests: Add option to use selected adapter.
+      d3d12/tests: Print adapter info.
+      d3d12/tests: Add option to run tests with validation layers.
+      d3d12/tests: Fix resource state transitions in test_swapchain_draw().
+      wined3d: Disallow disabling GLSL on core profile contexts.
+
+Kim Geonwoo (김건우) (1):
+      po: Update Korean translation.
+
+Kim Malmo (1):
+      po: Update Norwegian translation.
+
+Lauri Kenttä (1):
+      po: Update Finnish translation.
+
+Louis Lenders (1):
+      user32: Add stub for RegisterPointerDeviceNotifications.
+
+Lucian Poston (1):
+      include: Add ID2D1DeviceContext definition.
+
+Matteo Bruni (6):
+      wined3d: Slightly improve formatting of generated GLSL shader interfaces.
+      dxgi: Get rid of DXGI_FRAME_LATENCY_DEFAULT.
+      wined3d: Initialize glMinSampleShading() function pointer.
+      wined3d: Compare interpolation mode VS compilation arguments.
+      d3d9/tests: Test how state is reset after DrawPrimitive[Indexed]UP().
+      d3d9: Get rid of an unnecessary wined3d_device_set_base_vertex_index() call.
+
+Michael Müller (1):
+      wbemdisp: Add ISWbemSecurity stub interface.
+
+Michael Stefaniuc (91):
+      advapi32/tests: Use the available ARRAY_SIZE() macro.
+      crypt32/tests: Use the available ARRAY_SIZE() macro.
+      bcrypt/tests: Use the available ARRAY_SIZE() macro.
+      dnsapi/tests: Use the available ARRAY_SIZE() macro.
+      dpvoice/tests: Use the available ARRAY_SIZE() macro.
+      wmp/tests: Use the available ARRAY_SIZE() macro.
+      cmd/tests: Use the available ARRAY_SIZE() macro.
+      wscript/tests: Use the available ARRAY_SIZE() macro.
+      dplayx/tests: Use the available ARRAY_SIZE() macro.
+      winspool.drv/tests: Use the available ARRAY_SIZE() macro.
+      wmiutils/tests: Use the available ARRAY_SIZE() macro.
+      d3d10/tests: Use the available ARRAY_SIZE() macro.
+      d3drm/tests: Use the available ARRAY_SIZE() macro.
+      dxdiagn/tests: Use the available ARRAY_SIZE() macro.
+      evr/tests: Use the available ARRAY_SIZE() macro.
+      gameux/tests: Use the available ARRAY_SIZE() macro.
+      mlang/tests: Use the available ARRAY_SIZE() macro.
+      wintrust/tests: Use the available ARRAY_SIZE() macro.
+      xinput/tests: Use the available ARRAY_SIZE() macro.
+      wer/tests: Use the available ARRAY_SIZE() macro.
+      d3d10_1/tests: Use the available ARRAY_SIZE() macro.
+      version/tests: Use the available ARRAY_SIZE() macro.
+      uxtheme/tests: Use the available ARRAY_SIZE() macro.
+      userenv/tests: Use the available ARRAY_SIZE() macro.
+      ucrtbase/tests: Use the available ARRAY_SIZE() macro.
+      twain_32/tests: Use the available ARRAY_SIZE() macro.
+      taskschd/tests: Use the available ARRAY_SIZE() macro.
+      sxs/tests: Use the available ARRAY_SIZE() macro.
+      snmpapi/tests: Use the available ARRAY_SIZE() macro.
+      serialui/tests: Use the available ARRAY_SIZE() macro.
+      secure32/tests: Use the available ARRAY_SIZE() macro.
+      scrrun/tests: Use the available ARRAY_SIZE() macro.
+      schedsvc/tests: Use the available ARRAY_SIZE() macro.
+      rsaenh/tests: Use the available ARRAY_SIZE() macro.
+      d3dx10/tests: Use the available ARRAY_SIZE() macro.
+      xaudio2/tests: Use the available ARRAY_SIZE() macro.
+      wbemprox/tests: Use the available ARRAY_SIZE() macro.
+      wbemdisp/tests: Use the available ARRAY_SIZE() macro.
+      hlink/tests: Use the available ARRAY_SIZE() macro.
+      oledb32/tests: Use the available ARRAY_SIZE() macro.
+      oledlg/tests: Use the available ARRAY_SIZE() macro.
+      opengl32/tests: Use the available ARRAY_SIZE() macro.
+      packager/tests: Use the available ARRAY_SIZE() macro.
+      pdh/tests: Use the available ARRAY_SIZE() macro.
+      propsys/tests: Use the available ARRAY_SIZE() macro.
+      localui/tests: Use the available ARRAY_SIZE() macro.
+      mapi32/tests: Use the available ARRAY_SIZE() macro.
+      mmdevapi/tests: Remove an ARRAY_SIZE()-like macro.
+      mpr/tests: Use the available ARRAY_SIZE() macro.
+      msctf/tests: Use the available ARRAY_SIZE() macro.
+      shdocvw/tests: Use the available ARRAY_SIZE() macro.
+      d3dx9/tests: Use the available ARRAY_SIZE() macro.
+      d3dx9/tests: Use ARRAY_SIZE() in the initialization of registerset_data[].
+      inetcomm/tests: Use the available ARRAY_SIZE() macro.
+      inetmib1/tests: Use the available ARRAY_SIZE() macro.
+      imagehlp/tests: Use the available ARRAY_SIZE() macro.
+      iphlpapi/tests: Use the available ARRAY_SIZE() macro.
+      itss/tests: Use the available ARRAY_SIZE() macro.
+      kernelbase/tests: Use the available ARRAY_SIZE() macro.
+      msrle32/tests: Use the available ARRAY_SIZE() macro.
+      ntdsapi/tests: Use the available ARRAY_SIZE() macro.
+      credui/tests: Use the available ARRAY_SIZE() macro.
+      msvfw32/tests: Use the available ARRAY_SIZE() macro.
+      netapi32/tests: Use the available ARRAY_SIZE() macro.
+      jscript/tests: Use the available ARRAY_SIZE() macro.
+      imm32/tests: Use the available ARRAY_SIZE() macro.
+      d3d8/tests: Use the available ARRAY_SIZE() macro.
+      comctl32/tests: Use the available ARRAY_SIZE() macro.
+      kernel32/tests: Correct the buffer size passed to FormatMessageW().
+      kernel32/tests: Use the available ARRAY_SIZE() macro.
+      advpack/tests: Use the available ARRAY_SIZE() macro.
+      d3dcompiler/tests: Use the available ARRAY_SIZE() macro.
+      gdiplus/tests: Use the available ARRAY_SIZE() macro.
+      dinput8/tests: Use the available ARRAY_SIZE() macro.
+      dinput/tests: Use the available ARRAY_SIZE() macro.
+      webservices/tests: Use the available ARRAY_SIZE() macro.
+      rpcrt4/tests: Use the available ARRAY_SIZE() macro.
+      quartz/tests: Use the available ARRAY_SIZE() macro.
+      psapi/tests: Use the available ARRAY_SIZE() macro.
+      oleacc/tests: Use the available ARRAY_SIZE() macro.
+      ntprint/tests: Use the available ARRAY_SIZE() macro.
+      msvcirt/tests: Use the available ARRAY_SIZE() macro.
+      msvcp60/tests: Use the available ARRAY_SIZE() macro.
+      msvcp90/tests: Use the available ARRAY_SIZE() macro.
+      msvcp120/tests: Use the available ARRAY_SIZE() macro.
+      msvcp140/tests: Use the available ARRAY_SIZE() macro.
+      msvcr90/tests: Use the available ARRAY_SIZE() macro.
+      msvcr110/tests: Use the available ARRAY_SIZE() macro.
+      msvcr120/tests: Use the available ARRAY_SIZE() macro.
+      ieframe/tests: Use the available ARRAY_SIZE() macro.
+      mshtml/tests: Use the available ARRAY_SIZE() macro.
+
+Nikolay Sivov (1):
+      server: Use additional atom to keep base class name.
+
+Owen Rudge (2):
+      wsdapi/tests: Ensure probe message is given unique GUID.
+      wsdapi/tests: Expand ProbeHandler tests.
+
+Pablo Martin (6):
+      wined3d: Expose wined3d_shader_type enum and wined3d_device_*_constant_buffer methods.
+      d3d11: Make d3d11 *SetConstantBuffers use a helper method.
+      d3d11: Make d3d11 *GetConstantBuffers use a helper method.
+      d3d11: Make d3d10 *SetConstantBuffers use a helper method.
+      d3d11: Make d3d10 *GetConstantBuffers use a helper method.
+      wined3d: Delete the wined3d_device_get_*_cb and wined3d_device_set_*_cb methods.
+
+Piotr Caban (1):
+      msvcp120: Fix _Getcvt tests when zh_CN system locale is used.
+
+Roderick Colenbrander (4):
+      winevulkan: Fix parsing of const function pointer members.
+      winevulkan: Parse forward declared struct members.
+      winevulkan: Parse extension require sections one by one.
+      winevulkan: Update vk.xml to 1.1.76.
+
+Stefan Leichter (2):
+      ntdll: Partly implement RtlDosPathNameToRelativeNtPathName_U_WithStatus.
+      ntdll: Implement RtlReleaseRelativeName.
+
+Thomas Faber (2):
+      jscript: Fix MSVC build.
+      ole32/tests: Store GUIDs by reference.
+
+Zebediah Figura (50):
+      msi/tests: Test deferral of RegisterClassInfo and UnregisterClassInfo.
+      msi/tests: Test deferral of RegisterExtensionInfo and UnregisterExtensionInfo.
+      msi/tests: Test deferral of RegisterFonts and UnregisterFonts.
+      msi/tests: Test deferral of RegisterMimeInfo and UnregisterMimeInfo.
+      msi/tests: Simplify key access flags in test_register_product().
+      msi/tests: Test deferral of RegisterProduct.
+      msi/tests: Test deferral of RegisterProgIdInfo and UnregisterProgIdInfo.
+      msi/tests: Test deferral of RegisterUser.
+      widl: Try to import typedefs instead of redefining them.
+      widl: Properly implement syntax 2 dispinterfaces.
+      widl: Don't remove the FDUAL flag from non-dispatchable interfaces.
+      widl: Prefer types defined in the same typelib to imported types.
+      msi/tests: Test registration of a valid typelib.
+      msi/tests: Test deferral of RegisterTypeLibraries and UnregisterTypeLibraries.
+      msi/tests: Test self-registration of a valid DLL.
+      msi/tests: Test deferral of SelfRegModules and SelfUnregModules.
+      kernel32: Allow EnumProcessModules() to succeed on a WoW64 process.
+      kernel32: Allow GetModuleBaseName() to succeed on a WoW64 process.
+      kernel32: Allow GetModuleFileNameEx() to succeed on a WoW64 process.
+      kernel32: Allow GetModuleInformation() to succeed on a WoW64 process.
+      msi/tests: Simplify and combine environment variable tests.
+      msi/tests: Test deferral of WriteEnvironmentStrings and RemoveEnvironmentStrings.
+      msi/tests: Add a simple test for WriteIniValues.
+      msi/tests: Test deferral of WriteIniValues and RemoveIniValues.
+      dbghelp: Add a helper to check if a given module is the Wine loader.
+      dbghelp: Determine the wine loader name from the target process's architecture.
+      dbghelp: Correctly determine the wine loader base address.
+      dbghelp: Don't enforce child architecture in elf_map_file().
+      dbghelp: Detect ELF architecture before reading the whole header.
+      dbghelp: Translate the 32-bit ELF header to the 64-bit one.
+      dbghelp: Translate the 32-bit ELF section header to the 64-bit one.
+      msvcrt: Avoid using inline assembly in __ExceptionPtrDestroy().
+      msvcrt: Avoid using inline assembly in __ExceptionPtrCopyException() and copy_exception().
+      dbghelp: Read the ELF program header corresponding to the target's architecture.
+      dbghelp: Read the Elf_Dyn struct corresponding to the target's architecture.
+      dbghelp: Read the Elf_auxv_t struct corresponding to the target's architecture.
+      dbghelp: Translate the 32-bit ELF symbol struct to the 64-bit one.
+      dbghelp: Read the r_debug and link_map structs corresponding to the target's architecture.
+      stdole2.idl: Use more accurate sizes for Automation types.
+      widl: Generate correct size and alignment for all types.
+      msi: Only delete empty registry keys in delete_key().
+      msi/tests: Simplify and clarify WriteRegistryValues and RemoveRegistryValues tests.
+      msi/tests: Test deferral of WriteRegistryValues.
+      msi/tests: Test that some actions cause resolution of SourceDir.
+      msi: Resolve source when executing InstallFiles.
+      msi: Store the current script in the package.
+      include: Add some WOW64 definitions.
+      msvcrt: Avoid using inline assembly in continue_after_catch().
+      msvcrt: Avoid using inline assembly in call_finally_block().
+      msvcrt: Avoid using inline assembly in call_filter().
+
+Zhiyi Zhang (2):
+      user32: Return 1 in DrawTextEx() when calculated offset is 0.
+      user32: Respect margins more in DrawTextExW().
+
+--
+Alexandre Julliard
+julliard@winehq.org
